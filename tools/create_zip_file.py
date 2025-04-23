@@ -2,8 +2,17 @@ import os
 import zipfile
 from datetime import datetime
 
-files_to_exclude = ['.gitignore', 'Readme.md', '.DS_Store', 'buildrelease.py', 'airlike-plugin.code-workspace']
-folders_to_exclude = ['.git', 'tools']
+files_to_exclude = [
+    '.gitignore',
+    'Readme.md',
+    '.DS_Store',
+    'buildrelease.py',
+    'airlike-plugin.code-workspace',
+    'bplugin.sh',
+    'cplugin.sh'
+]
+
+folders_to_exclude = ['.git', 'tools', '__pycache__']
 
 today = datetime.today()
 
