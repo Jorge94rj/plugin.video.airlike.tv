@@ -63,3 +63,5 @@ target/
 .idea/
 
 *.zip
+*.code-workspace
+plugin.video.airlike.tv_release*
