@@ -13,7 +13,7 @@ def copy_plugin():
         print('destination prop must be set in settings.json file')
         return
     
-    create_zip_file()
+    create_zip_file(nest_content=False)
     
     source_dir = get_zip_file_path()
     destination_dir = settings['destination']

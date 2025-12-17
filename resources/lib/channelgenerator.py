@@ -29,8 +29,8 @@ keep_logs        = True if __setting__('logging') == 'true' else False
 
 addonPath = __addon__.getAddonInfo('path')
 addonProfile = __addon__.getAddonInfo('profile')
-defaultThumbnail = os.path.join(addonPath, 'resources/images/thumbnail.default.png')
-defaultFanart = os.path.join(addonPath, 'resources/images/fanart.default.png')
+defaultThumbnail = os.path.join(addonPath, 'resources/media/thumbnail.default.png')
+defaultFanart = os.path.join(addonPath, 'resources/media/fanart.default.png')
 
 
 def get_url(**kwargs):
