@@ -15,7 +15,6 @@ sys.path.append(addonPath)
 
 from resources.lib.enums import BlockKeys
 from resources.lib.db.connect import getDBConn
-from resources.lib.db.debug_updatedb import applyUpdate
 from resources.lib.utils import getSettings
 
 WINDOW = xbmcgui.Window(10000)
@@ -42,11 +41,6 @@ from1 = 'TIME(%s) >= TIME(b.start_time)' % (currentHour)
 to1 = 'TIME(%s) <= TIME(b.start_time,"+1 hours")' % (currentHour)
 from2 = 'TIME(%s) <= TIME(b.start_time)' % (currentHour)
 to2 = 'TIME(b.start_time) < TIME(%s,"+1 hours")' % (currentHour)
-
-#DEBUG STUFF ID RANGE IS 1 - 7
-updateDB = True
-updateDayTo = 7
-updateStartTimeTo = '14:20'
 
 def updateContent(channelId):
     global parentDir
@@ -150,11 +144,6 @@ def getAvailableBlocks(channelId):
     connection = getDBConn()
     if not connection:
         return
-    # DEBUG_STUFF
-    # if updateDB:
-    #     applyUpdate(connection, updateDayTo, updateStartTimeTo)
-    #     xbmc.sleep(1000)
-    #     connection.connection.commit()
 
     connection.execute(
         'SELECT cdb.block_id, c.name, thumbnail, start_time, len' + ' '
@@ -225,12 +214,15 @@ def createBlock(block):
 
     for item in mediaItems:
         duration = item['duration']
+
+        if duration <= 0:
+            continue
+
         totalDuration += duration
+
         if dt <= (dt.replace(hour=startTime.hour,minute=startTime.minute) + timedelta(minutes=totalDuration)):
             addItemToPlaylist(item['path'], item['filename'])
             now = dt.now().strftime("%Y-%m-%d %H:%M:%S")
-            # datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
-            # TESTED datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
             connection.execute('UPDATE media SET last_date_played="%s" WHERE filename="%s"' % (now, item['filename']))
             connection.connection.commit()
         else:
